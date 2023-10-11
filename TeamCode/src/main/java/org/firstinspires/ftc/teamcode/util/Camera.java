@@ -1,26 +1,48 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import android.graphics.Color;
+import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+import java.util.List;
+
 public class Camera {
     private OpenCvWebcam webcam;
 
+
+    // UNITS ARE PIXELS
+    // NOTE: this calibration is for the C920 webcam at 800x448.
+    // You will need to do your own calibration for other configurations!
+    private final double FX = 578.272;
+    private final double FY = 578.272;
+    private final double CX = 402.145;
+    private final double CY = 221.506;
+
+    // UNITS ARE METERS
+    private final double TAGSIZE = 0.166;
+
     private int itemStatus;
     public ColorDetectionPipeline colorDetectionPipeline;
+    public AprilTagDetectionPipeline aprilTagDetectionPipeline;
     private LinearOpMode op;
     public Camera(LinearOpMode p_op){
         //you can input  a hardwareMap instead of linearOpMode if you want
         op = p_op;
         //initialize webcam
         webcam = OpenCvCameraFactory.getInstance().createWebcam(op.hardwareMap.get(WebcamName.class, "Webcam 1"));
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(TAGSIZE, FX, FY, CX, CY);
+
     }
     public int getItemStatus() {
         return itemStatus;
@@ -71,6 +93,25 @@ public class Camera {
                  */
             }
         });
+    }
+
+    public List<AprilTagDetection> getAprilTags(HardwareMap hardwareMap) {
+
+        AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                .build();
+
+        VisionPortal visionPortal = new VisionPortal.Builder()
+                .addProcessor(tagProcessor)
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(new Size(640, 480))
+                .build();
+
+        return tagProcessor.getDetections();
+
     }
 
     //stop streaming
