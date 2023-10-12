@@ -26,19 +26,19 @@ public class DriveTrain {
 
 
     public void drive(double x, double y) {
-        if (abs(x) > 0.1 && abs(y) < 0.1) {
+        if (abs(x) > DEADZONE && abs(y) < DEADZONE) {
             frontLeft.setPower(x);
             frontRight.setPower(x);
             backLeft.setPower(x);
             backRight.setPower(x);
         }
-        else if (abs(x) < 0.1 && abs(y) > 0.1) {
+        else if (abs(x) < DEADZONE && abs(y) > DEADZONE) {
             frontLeft.setPower(y);
             backLeft.setPower(-y);
             frontRight.setPower(y);
             backRight.setPower(-y);
         }
-        else if (abs(x) > 0.1 && abs(y) > 0.1) {
+        else if (abs(x) > DEADZONE && abs(y) > DEADZONE) {
             if (x / abs(x) == y / abs(y)) {
                 frontLeft.setPower(p(x, y) * x / abs(x));
                 backRight.setPower(p(x, y) * x / abs(x));
