@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.util.Camera;
+import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +19,7 @@ import java.util.List;
 public class TestCamera extends LinearOpMode {
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
 ////        initialize camera and pipeline
 //        Camera cv = new Camera(this);
 ////      call the function to startStreaming
@@ -33,23 +38,44 @@ public class TestCamera extends LinearOpMode {
 ////        stopStreaming
 //        cv.stopCamera();
 
+        AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                .build();
 
-        Camera cv = new Camera(this);
+        VisionPortal visionPortal = new VisionPortal.Builder()
+                .addProcessor(tagProcessor)
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(new Size(640, 480))
+                .build();
 
         waitForStart();
 
-        while (!opModeIsActive() && opModeIsActive()) {
-            List<AprilTagDetection> arr = cv.getAprilTags(hardwareMap);
-            if (!arr.isEmpty()) {
-                AprilTagDetection tag = arr.get(0);
+        while (!isStopRequested() && opModeIsActive()) {
 
-                telemetry.addData("x", tag.ftcPose.x);
-                telemetry.addData("y", tag.ftcPose.y);
-                telemetry.addData("z", tag.ftcPose.z);
-                telemetry.addData("roll", tag.ftcPose.roll);
-                telemetry.addData("pitch", tag.ftcPose.pitch);
-                telemetry.addData("yaw", tag.ftcPose.yaw);
+
+
+            for (AprilTagDetection tag : tagProcessor.getDetections())  {
+
+
+
+//                telemetry.addData("x", tag.ftcPose.x);
+//                telemetry.addData("y", tag.ftcPose.y);
+//                telemetry.addData("z", tag.ftcPose.z);
+//                telemetry.addData("roll", tag.ftcPose.roll);
+//                telemetry.addData("pitch", tag.ftcPose.pitch);
+//                telemetry.addData("yaw", tag.ftcPose.yaw);
+                telemetry.addData("id", tag.id);
+
+
+//                telemetry.update();
+
             }
+
+            telemetry.update();
+
         }
     }
 }
