@@ -48,7 +48,12 @@ public class DriveTrain {
                 backLeft.setPower(p(x, y) * x / abs(x));
             }
         }
-
+        else {
+            frontLeft.setPower(0.0);
+            frontRight.setPower(0.0);
+            backLeft.setPower(0.0);
+            backRight.setPower(0.0);
+        }
     }
 
     private double p(double x, double y) {

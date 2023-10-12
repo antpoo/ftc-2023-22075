@@ -95,24 +95,13 @@ public class Camera {
         });
     }
 
-    public List<AprilTagDetection> getAprilTags(HardwareMap hardwareMap) {
-
-        AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
-                .setDrawAxes(true)
-                .setDrawCubeProjection(true)
-                .setDrawTagID(true)
-                .setDrawTagOutline(true)
-                .build();
-
-        VisionPortal visionPortal = new VisionPortal.Builder()
-                .addProcessor(tagProcessor)
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .setCameraResolution(new Size(640, 480))
-                .build();
-
-        return tagProcessor.getDetections();
-
-    }
+//    public List<AprilTagDetection> getAprilTags(HardwareMap hardwareMap) {
+//
+//
+//
+//        return tagProcessor.getDetections();
+//
+//    }
 
     //stop streaming
     public void stopCamera(){
