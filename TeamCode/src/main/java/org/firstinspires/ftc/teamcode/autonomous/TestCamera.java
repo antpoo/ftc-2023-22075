@@ -61,13 +61,14 @@ public class TestCamera extends LinearOpMode {
 
 
 
-//                telemetry.addData("x", tag.ftcPose.x);
-//                telemetry.addData("y", tag.ftcPose.y);
-//                telemetry.addData("z", tag.ftcPose.z);
-//                telemetry.addData("roll", tag.ftcPose.roll);
-//                telemetry.addData("pitch", tag.ftcPose.pitch);
-//                telemetry.addData("yaw", tag.ftcPose.yaw);
+//
                 telemetry.addData("id", tag.id);
+                telemetry.addData("x", tag.ftcPose.x);
+                telemetry.addData("y", tag.ftcPose.y);
+                telemetry.addData("z", tag.ftcPose.z);
+                telemetry.addData("roll", tag.ftcPose.roll);
+                telemetry.addData("pitch", tag.ftcPose.pitch);
+                telemetry.addData("yaw", tag.ftcPose.yaw);
 
 
 //                telemetry.update();
