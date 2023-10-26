@@ -18,6 +18,7 @@ public class DriveOp extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
+
             drivebase.move(gamepadEx1);
 
             //if statements that will check the
