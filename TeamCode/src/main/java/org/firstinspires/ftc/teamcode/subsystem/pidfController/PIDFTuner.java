@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.util.pidfController;
+package org.firstinspires.ftc.teamcode.subsystem.pidfController;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;

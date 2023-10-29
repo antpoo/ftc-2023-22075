@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.autonomous.subsystem;
+package org.firstinspires.ftc.teamcode.subsystem;
 
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Drivebase {
+public class Drivebase extends SubsystemBase {
     private Motor frontLeft, frontRight, backLeft, backRight;
 
     private MecanumDrive drive;
@@ -14,7 +14,7 @@ public class Drivebase {
 
     private final String BL = "backLeftMotor", BR = "backRightMotor";
 
-    private final double DEADZONE = 0.1; //TODO implement dead zone if needed
+    private final double DEAD_ZONE = 0.1; //TODO implement dead zone if needed
 
     public Drivebase(HardwareMap hardwareMap){
         //By default the motors are in RawPower mode
@@ -38,23 +38,23 @@ public class Drivebase {
 
     }
 
-    public void move(GamepadEx gamepad){
-        double strafeSpeed = gamepad.getLeftX() > 0.1 || gamepad.getLeftX() < -0.1
-                ? gamepad.getLeftX()
+    public void move(double leftX, double leftY, double rightX){
+        double strafeSpeed = leftX > DEAD_ZONE || leftX < -DEAD_ZONE
+                ? leftX
                 : 0;
 
-        double forwardSpeed = gamepad.getLeftY() > 0.1 || gamepad.getLeftY() < -0.1
-                ? gamepad.getLeftY()
+        double forwardSpeed = leftY > DEAD_ZONE || leftY < -DEAD_ZONE
+                ? leftY
                 : 0;
 
-        double turn = gamepad.getRightX() > 0.1 || gamepad.getLeftY() < 0.-1
-                ? gamepad.getLeftY()
+        double turn = rightX > DEAD_ZONE || rightX < -DEAD_ZONE
+                ? rightX
                 : 0;
 
         drive.driveRobotCentric(
-                gamepad.getLeftX(),
-                gamepad.getLeftY(),
-                gamepad.getRightY()
+                strafeSpeed,
+                forwardSpeed,
+                turn
         );
     }
 }
