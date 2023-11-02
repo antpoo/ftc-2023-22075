@@ -22,7 +22,7 @@ public class RedClose extends LinearOpMode {
 
 
         OpenCVMaster cv = new OpenCVMaster(this);
-
+        cv.observeStick();
         waitForStart();
         int target = LEFT; // change based on team prop
 
@@ -37,6 +37,9 @@ public class RedClose extends LinearOpMode {
             telemetry.addData("Count", cnt);
             cnt++;
             if (cnt >= 30) {
+                if (cv.opencv.whichSide.equals("left")) target = LEFT;
+                else if (cv.opencv.whichSide.equals("center")) target = CENTER;
+                else if (cv.opencv.whichSide.equals("right")) target = RIGHT;
                 break;
             }
             telemetry.update();
@@ -69,13 +72,13 @@ public class RedClose extends LinearOpMode {
                     tag = atag;
                 }
             }
-            if (tag != null) {
+            if (tag != null && tag.ftcPose != null) {
                 double x = tag.ftcPose.x, y = tag.ftcPose.y, z = tag.ftcPose.z;
                 telemetry.addData("id", tag.id);
-                telemetry.addData("x", tag.ftcPose.x);
-                telemetry.addData("y", tag.ftcPose.y);
-                telemetry.addData("z", tag.ftcPose.z);
-
+                telemetry.addData("x", x);
+                telemetry.addData("y", y);
+                telemetry.addData("z", z);
+                telemetry.update();
             }
 
 
