@@ -11,11 +11,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorDetectionPipeline extends OpenCvPipeline {
+public class CustomOpenCVPipeline extends OpenCvPipeline {
     //backlog of frames to average out to reduce noise
 
-    static final int LEFT = 0, MIDDLE = 1, RIGHT = 2;
-    private int side;
+    public String whichSide;
 
     public boolean hasProcessedFrame = false;
     public int max;
@@ -25,36 +24,26 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
     public static double strictLowS = 140;
     public static double strictHighS = 255;
 
-    public ColorDetectionPipeline(String color) {
+    public CustomOpenCVPipeline() {
         frameList = new ArrayList<>();
-        if (color.equals("RED")) {
-            rectColor = new Scalar(255.0, 0.0, 0.0);
-            rectColorFound = new Scalar(255.0, 100.0, 100.0);
-        }
-        else if (color.equals("BLUE")) {
-            rectColor = new Scalar(0.0, 0.0, 255.0);
-            rectColorFound = new Scalar(100.0, 100.0, 255.0);
-        }
     }
 
     Mat YCbCr = new Mat();
     Mat region1_Cb, region2_Cb, region3_Cb;
     Mat outPut = new Mat();
-    Scalar rectColor;
-    Scalar rectColorFound;
+    Scalar rectColor = new Scalar(255.0, 0.0, 0.0);
+    Scalar rectColorFound = new Scalar(255.0, 100.0, 100.0);
     Mat Cb = new Mat();
-    private int avg1, avg2, avg3;
-
-    public int getSide() {
-        return this.side;
-    }
+    public int avg1, avg2, avg3;
 
     void inputToCb(Mat input)
     {
         Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
         Core.extractChannel(YCbCr, Cb, 2);
     }
-
+    public String getWhichSide() {
+        return whichSide;
+    }
     @Override
     public void init(Mat firstFrame) {
         /*
@@ -183,16 +172,17 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
         region2_bw.release();
         region3_bw.release();
 
-        max = Math.max(Math.max(avg1, avg2), avg3);
+        int maxOneTwo = Math.max(avg1, avg2);
+        max = Math.max(maxOneTwo, avg3);
 
         if(max == avg1) {
-            side = LEFT;
+            whichSide = "left";
         }
         else if(max == avg2) {
-            side = MIDDLE;
+            whichSide = "center";
         }
         else if(max == avg3) {
-            side = RIGHT;
+            whichSide = "right";
         }
 
 
@@ -202,17 +192,5 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
         hasProcessedFrame = true;
 
         return input;
-    }
-
-    public int getAvg1() {
-        return avg1;
-    }
-
-    public int getAvg2() {
-        return avg2;
-    }
-
-    public int getAvg3() {
-        return avg3;
     }
 }
