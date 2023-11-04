@@ -1,18 +1,19 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.button.Button;
+import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmDrive;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
-import org.firstinspires.ftc.teamcode.commands.IntakeDirection;
-import org.firstinspires.ftc.teamcode.commands.IntakeOnOff;
 import org.firstinspires.ftc.teamcode.commands.LiftDrive;
+import org.firstinspires.ftc.teamcode.commands.clawWrist.MoveClaw1;
+import org.firstinspires.ftc.teamcode.commands.clawWrist.MoveClaw2;
+import org.firstinspires.ftc.teamcode.commands.clawWrist.MoveWrist;
+import org.firstinspires.ftc.teamcode.subsystem.ClawWrist;
 import org.firstinspires.ftc.teamcode.subsystem.Drivebase;
-import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.pidfController.PIDFArm;
 import org.firstinspires.ftc.teamcode.subsystem.pidfController.PIDFLift;
 
@@ -31,16 +32,23 @@ public class DriveOp extends CommandOpMode {
     private PIDFLift liftSubsystem;
     private LiftDrive liftCommand;
 
-    private Intake intakeSubsystem;
-    private IntakeDirection intakeDirectionCommand;
-    private IntakeOnOff intakeOnOffCommand;
+    private ClawWrist clawWristSubsystem;
+    private MoveWrist moveWristCommand;
+    private MoveClaw1 moveClaw1Command;
+    private MoveClaw2 moveClaw2Command;
+
+
     @Override
     public void initialize() {
         drivePad = new GamepadEx(gamepad1);
         toolPad = new GamepadEx(gamepad2);
 
-        Button x = drivePad.getGamepadButton(GamepadKeys.Button.X);
-        Button y = drivePad.getGamepadButton(GamepadKeys.Button.Y);
+
+        //TODO add presets for arm positions and lift positions with new commands
+        GamepadButton a = toolPad.getGamepadButton(GamepadKeys.Button.A);
+        GamepadButton b = toolPad.getGamepadButton(GamepadKeys.Button.B);
+        GamepadButton x = toolPad.getGamepadButton(GamepadKeys.Button.X);
+
 
         drivebase = new Drivebase(hardwareMap);
         driveCommand = new DefaultDrive(drivebase, () -> drivePad.getLeftX(),
@@ -53,14 +61,18 @@ public class DriveOp extends CommandOpMode {
         liftSubsystem = new PIDFLift(hardwareMap, 0);
         liftCommand = new LiftDrive(liftSubsystem, ()-> toolPad.getLeftY());
 
-        intakeSubsystem = new Intake(hardwareMap);
-        intakeDirectionCommand = new IntakeDirection(intakeSubsystem);
-        x.whenActive(intakeDirectionCommand);
-        intakeOnOffCommand = new IntakeOnOff(intakeSubsystem);
-        y.whenActive(intakeOnOffCommand);
+        clawWristSubsystem = new ClawWrist(hardwareMap);
+        moveClaw1Command = new MoveClaw1(clawWristSubsystem);
+        a.whenActive(moveClaw1Command);
+        moveClaw2Command = new MoveClaw2(clawWristSubsystem);
+        b.whenActive(moveClaw2Command);
+        moveWristCommand = new MoveWrist(clawWristSubsystem);
+        x.whenActive(moveWristCommand);
+
 
         //TODO do I need to register the drive subsystem even though I don't have a periodic setup?
         drivebase.setDefaultCommand(driveCommand);
         armSubsystem.setDefaultCommand(armCommand);
+        liftSubsystem.setDefaultCommand(liftCommand);
     }
 }

@@ -13,7 +13,7 @@ public class PIDFLift extends SubsystemBase {
     //The 'f' from the video = 'Kcos' from CTRL ALT FTC documentation
     private double p = 0, i = 0, d = 0, f = 0;
 
-    private double target = 0;
+    private int target = 0;
 
     private DcMotorEx lift1, lift2;
 
@@ -28,13 +28,18 @@ public class PIDFLift extends SubsystemBase {
     public void move(int posChange) {
         target += posChange;
 
+        setPosition(target);
+    }
+
+    public void setPosition(int t) {
+        target = t;
+
         int liftPos = lift1.getCurrentPosition();
         double pid = controller.calculate(liftPos, target);
 
         double power = pid + f;
         lift1.setPower(power);
         lift2.setPower(power);
-
     }
 
     public void tune(int target, double p, double i, double d, double f) {

@@ -13,7 +13,7 @@ public class PIDFArm extends SubsystemBase {
 
     private double ticks_in_degree; //Total number of ticks in a degree
 
-    private double target = 0; //target position
+    private int target = 0; //target position
 
     private DcMotorEx arm;
 
@@ -28,13 +28,18 @@ public class PIDFArm extends SubsystemBase {
     public void move(int posChange){
         target += posChange;
 
+        setPosition(target);
+    }
+
+    public void setPosition(int t){
+        target = t;
+
         int armPos  = arm.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
         double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
         double power = pid + ff;
         arm.setPower(power);
-
     }
 
     public void tune(int target, double  p, double i, double d, double f){
