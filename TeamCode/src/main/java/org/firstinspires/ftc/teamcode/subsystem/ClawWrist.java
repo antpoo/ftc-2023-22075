@@ -34,7 +34,7 @@ public class ClawWrist extends SubsystemBase {
             state[name] = true;
         }else {
             claw.turnToAngle(OPEN);
-            state[name] = false
+            state[name] = false;
         }
     }
 
