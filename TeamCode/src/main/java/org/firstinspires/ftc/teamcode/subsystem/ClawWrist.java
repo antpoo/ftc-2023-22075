@@ -12,7 +12,7 @@ public class ClawWrist extends SubsystemBase {
         false is open or not twisted
         true is close or twisted
      */
-    private boolean[] state = new boolean[3]; /
+    private boolean[] state = new boolean[3];
     public final double CLOSE = 0; //degrees to close the claw //TODO set the degrees
     public final double OPEN = 0;
     public final double TWIST = 0; //Required amount of turn from hte wrist for pixel placement on board
