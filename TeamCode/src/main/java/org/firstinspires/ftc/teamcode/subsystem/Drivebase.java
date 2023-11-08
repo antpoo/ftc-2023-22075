@@ -14,7 +14,7 @@ public class Drivebase extends SubsystemBase {
 
     private final String BL = "backLeftMotor", BR = "backRightMotor";
 
-    private final double DEAD_ZONE = 0.1; //TODO implement dead zone if needed
+    private final double DEAD_ZONE = 0.1;
 
     public Drivebase(HardwareMap hardwareMap){
         //By default the motors are in RawPower mode
