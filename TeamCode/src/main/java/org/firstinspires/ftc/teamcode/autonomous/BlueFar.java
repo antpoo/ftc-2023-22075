@@ -12,17 +12,17 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @Autonomous
-public class RedClose extends LinearOpMode {
+public class BlueFar extends LinearOpMode {
 
     final int LEFT = 1, CENTER = 2, RIGHT = 3;
-    final boolean RED = false, BLUE = true;
 
+    final boolean RED = false, BLUE = true;
     @Override
     public void runOpMode() {
 
 
         OpenCVMaster cv = new OpenCVMaster(this);
-        cv.observeStick(RED);
+        cv.observeStick(BLUE);
         waitForStart();
         int target = LEFT; // change based on team prop
 
@@ -50,6 +50,7 @@ public class RedClose extends LinearOpMode {
         cv.stopCamera();
 
         // MOVE AND PLACE THE GROUND PIXEL IN THE CORRECT SPOT
+
 
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)

@@ -90,8 +90,8 @@ public class CustomOpenCVPipeline extends OpenCvPipeline {
         // lenient bounds will filter out near yellow, this should filter out all near yellow things(tune this if needed)
 //        Scalar lowHSV = new Scalar(0, 100, 100);
 //        Scalar highHSV = new Scalar(0, 255, 255);
-        Scalar lowHSV = new Scalar(0, 50, 50);
-        Scalar highHSV = new Scalar(30, 255, 255);
+        Scalar lowHSV = colour == RED ? new Scalar(0, 50, 50) : new Scalar(90, 50, 70);
+        Scalar highHSV = colour == RED ? new Scalar(30, 255, 255) : new Scalar(128, 255, 255);
 
         Mat thresh = new Mat();
 
@@ -114,8 +114,8 @@ public class CustomOpenCVPipeline extends OpenCvPipeline {
 
 //        Scalar strictLowHSV = new Scalar(0, 100, 100);
 //        Scalar strictHighHSV = new Scalar(0, 255, 255);
-        Scalar strictLowHSV = colour == RED ? new Scalar(0, 100, 100) : new Scalar(110, 50, 50);
-        Scalar strictHighHSV = colour == RED ? new Scalar(0, 255, 255) : new Scalar(130, 255, 255);
+        Scalar strictLowHSV = colour == RED ? new Scalar(0, 100, 100) : new Scalar(100, 100, 100);
+        Scalar strictHighHSV = colour == RED ? new Scalar(0, 255, 255) : new Scalar(150, 255, 255);
 
 
         //apply strict HSV filter onto scaledMask to get rid of any yellow other than pole
