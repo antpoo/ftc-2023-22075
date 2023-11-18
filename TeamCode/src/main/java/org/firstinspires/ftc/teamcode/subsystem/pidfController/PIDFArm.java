@@ -31,6 +31,12 @@ public class PIDFArm extends SubsystemBase {
         setPosition(target);
     }
 
+    public void autonPos(int t){
+        while(!controller.atSetPoint()){
+            setPosition(t);
+        }
+    }
+
     public void setPosition(int t){
         target = t;
 

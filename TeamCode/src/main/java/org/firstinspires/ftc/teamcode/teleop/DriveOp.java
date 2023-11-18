@@ -12,8 +12,10 @@ import org.firstinspires.ftc.teamcode.commands.LiftDrive;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.MoveClaw1;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.MoveClaw2;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.MoveWrist;
+import org.firstinspires.ftc.teamcode.commands.clawWrist.ReleasePlane;
 import org.firstinspires.ftc.teamcode.subsystem.ClawWrist;
 import org.firstinspires.ftc.teamcode.subsystem.Drivebase;
+import org.firstinspires.ftc.teamcode.subsystem.Plane;
 import org.firstinspires.ftc.teamcode.subsystem.pidfController.PIDFArm;
 import org.firstinspires.ftc.teamcode.subsystem.pidfController.PIDFLift;
 
@@ -37,6 +39,9 @@ public class DriveOp extends CommandOpMode {
     private MoveClaw1 moveClaw1Command;
     private MoveClaw2 moveClaw2Command;
 
+    private Plane planeSubsystem;
+    private ReleasePlane releaseCommand;
+
 
     @Override
     public void initialize() {
@@ -48,6 +53,8 @@ public class DriveOp extends CommandOpMode {
         GamepadButton a = toolPad.getGamepadButton(GamepadKeys.Button.A);
         GamepadButton b = toolPad.getGamepadButton(GamepadKeys.Button.B);
         GamepadButton x = toolPad.getGamepadButton(GamepadKeys.Button.X);
+
+        GamepadButton y = drivePad.getGamepadButton(GamepadKeys.Button.Y);
 
 
         drivebase = new Drivebase(hardwareMap);
@@ -68,6 +75,10 @@ public class DriveOp extends CommandOpMode {
         b.whenActive(moveClaw2Command);
         moveWristCommand = new MoveWrist(clawWristSubsystem);
         x.whenActive(moveWristCommand);
+
+        planeSubsystem = new Plane(hardwareMap);
+        releaseCommand = new ReleasePlane(planeSubsystem);
+        y.whenActive(releaseCommand);
 
 
         //TODO do I need to register the drive subsystem even though I don't have a periodic setup?

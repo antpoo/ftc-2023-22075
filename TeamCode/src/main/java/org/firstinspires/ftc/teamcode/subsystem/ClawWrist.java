@@ -14,15 +14,15 @@ public class ClawWrist extends SubsystemBase {
      */
     private boolean[] state = new boolean[3];
     public final double CLOSE = 0; //degrees to close the claw //TODO set the degrees
-    public final double OPEN = 0;
+    public final double OPEN = 45;
     public final double TWIST = 0; //Required amount of turn from hte wrist for pixel placement on board
     public final double UNTWIST = 0;
 
     public static final int CLAW1 = 0, CLAW2  = 1, WRIST  = 2;
     public ClawWrist(HardwareMap hardwareMap) {
-        servos[0] = new SimpleServo(hardwareMap, "claw1", 0, 360);
+        servos[0] = new SimpleServo(hardwareMap, "claw1", 0, 180);
 
-        servos[1] = new SimpleServo(hardwareMap, "claw2", 0, 360);
+        servos[1] = new SimpleServo(hardwareMap, "claw2", 0, 180);
 
         servos[2] = new SimpleServo(hardwareMap, "wrist", 0, 360);
     }
