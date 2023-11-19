@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
@@ -17,9 +19,9 @@ public class TestOp extends LinearOpMode {
 //        lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //
-//        DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
-//        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Servo servo = hardwareMap.get(Servo.class, "claw1");
         servo.setDirection(Servo.Direction.REVERSE);
@@ -27,7 +29,11 @@ public class TestOp extends LinearOpMode {
         Servo servo2 = hardwareMap.get(Servo.class, "claw2");
         servo2.setDirection(Servo.Direction.REVERSE);
 
-//        Servo plane = hardwareMap.get(Servo.class, "plane");
+        Servo plane = hardwareMap.get(Servo.class, "plane");
+        plane.setDirection(Servo.Direction.REVERSE);
+
+        Servo wrist = hardwareMap.get(Servo.class, "wrist");
+        wrist.setDirection(Servo.Direction.FORWARD);
 
         waitForStart();
 
@@ -39,17 +45,20 @@ public class TestOp extends LinearOpMode {
 //            lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //            lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-//            plane.setPosition(0.50);
+//            plane.setPosition(0.5);
+//            telemetry.addData("Position: ", plane.getPosition());
+
+//            wrist.setPosition(0.5);
 
 //            servo.setPosition(0.25);
-            servo2.setPosition(0.0);
-            telemetry.addData("Angle: ", servo.getPosition());
-            telemetry.addData("Angle: ", servo2.getPosition());
-            telemetry.update();
+//            servo2.setPosition(0.1);
+//            telemetry.addData("Angle: ", servo.getPosition());
+//            telemetry.addData("Angle: ", servo2.getPosition());
+//            telemetry.update();
 
-//            arm.setTargetPosition(-100);
-//            arm.setPower(-0.5);
-//            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setTargetPosition(-150);
+            arm.setPower(-0.2);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 }
