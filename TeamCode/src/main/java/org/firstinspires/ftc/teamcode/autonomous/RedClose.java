@@ -2,10 +2,15 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import android.util.Size;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.autonomous.roadrunner.essentials.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.pidfController.PIDFArm;
 import org.firstinspires.ftc.teamcode.util.OpenCVMaster;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -23,10 +28,17 @@ public class RedClose extends LinearOpMode {
 
         OpenCVMaster cv = new OpenCVMaster(this);
         cv.observeStick(RED);
+
+        PIDFArm arm = new PIDFArm(hardwareMap, 10);
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
         waitForStart();
         int target = LEFT; // change based on team prop
 
         int cnt = 0;
+
+        // may have to do some twisting and turning to find the team prop
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData("Side: ", cv.opencv.whichSide);
@@ -50,6 +62,36 @@ public class RedClose extends LinearOpMode {
         cv.stopCamera();
 
         // MOVE AND PLACE THE GROUND PIXEL IN THE CORRECT SPOT
+
+
+        Trajectory purpleTraj;
+
+        if (target == LEFT) {
+            purpleTraj = drive.trajectoryBuilder(new Pose2d())
+                    .splineTo(new Vector2d(0.0, 19.0), Math.toRadians(-28)) // FIX THESE NUMBERS IF NEEDED
+                    .addDisplacementMarker(() -> {
+                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+                    })
+                    .build();
+        }
+        else if (target == CENTER) {
+            purpleTraj = drive.trajectoryBuilder(new Pose2d())
+                    .splineTo(new Vector2d(0.0, 20.38), 0)
+                    .addDisplacementMarker(() -> {
+                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+                    })
+                    .build();
+        }
+        else {
+            purpleTraj = drive.trajectoryBuilder(new Pose2d())
+                    .splineTo(new Vector2d(0.0, 19.0), Math.toRadians(28)) // FIX THESE NUMBERS IF NEEDED
+                    .addDisplacementMarker(() -> {
+                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+                    })
+                    .build();
+        }
+
+        drive.followTrajectory(purpleTraj);
 
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
