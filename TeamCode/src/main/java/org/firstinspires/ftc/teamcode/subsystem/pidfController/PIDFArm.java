@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.subsystem.pidfController;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class PIDFArm extends SubsystemBase {
@@ -16,19 +18,31 @@ public class PIDFArm extends SubsystemBase {
     private int target = 0; //target position
 
     private DcMotorEx arm;
+    private DcMotorEx arm2;
 
     public PIDFArm(HardwareMap hardwareMap, int tolerance) {
-        controller.setPID(p, i, d);
+        controller = new PIDController(p, i, d);
         controller.setTolerance(tolerance);
 
         arm = hardwareMap.get(DcMotorEx.class, "arm");
+        //The arm needs to be reverse for it to travel upwards
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
         ticks_in_degree = arm.getMotorType().getTicksPerRev() / 180.0;
+
+        arm = hardwareMap.get(DcMotorEx.class, "arm2");
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void move(int posChange){
         target += posChange;
 
         setPosition(target);
+    }
+
+    public void autonPos(int t){
+        while(!controller.atSetPoint()){
+            setPosition(t);
+        }
     }
 
     public void setPosition(int t){
@@ -40,6 +54,7 @@ public class PIDFArm extends SubsystemBase {
 
         double power = pid + ff;
         arm.setPower(power);
+        arm2.setPower(power);
     }
 
     public void tune(int target, double  p, double i, double d, double f){
@@ -50,6 +65,7 @@ public class PIDFArm extends SubsystemBase {
 
         double power = pid + ff;
         arm.setPower(power);
+        arm2.setPower(power);
     }
 
     public int armPos(){

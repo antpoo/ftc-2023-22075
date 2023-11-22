@@ -4,15 +4,15 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystem.ClawWrist;
 
-public class MoveWrist extends CommandBase {
+public class OpenClaw2 extends CommandBase {
     private ClawWrist clawWristSubsystem;
-    public MoveWrist(ClawWrist subsystem) {
+    public OpenClaw2(ClawWrist subsystem) {
         clawWristSubsystem = subsystem;
         addRequirements(subsystem);
     }
 
     @Override
     public void execute(){
-        clawWristSubsystem.twistWrist();
+        clawWristSubsystem.openClaw2();
     }
 }
