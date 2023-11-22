@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
@@ -21,6 +24,13 @@ public class TestOp extends LinearOpMode {
 //
         DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        DcMotor arm2 = hardwareMap.get(DcMotorEx.class, "arm2");
+        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm2.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Servo servo = hardwareMap.get(Servo.class, "claw1");
@@ -56,9 +66,22 @@ public class TestOp extends LinearOpMode {
 //            telemetry.addData("Angle: ", servo2.getPosition());
 //            telemetry.update();
 
-            arm.setTargetPosition(-150);
-            arm.setPower(-0.2);
+            arm.setTargetPosition(170);
+            arm.setPower(1);
             arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setTargetPosition(170);
+            arm2.setPower(1);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            telemetry.addData("Current Position 1: ", arm.getCurrentPosition());
+            telemetry.addData("Target Position 1: ", 170);
+            telemetry.addData("Arm Power 1: ", arm.getPower());
+            telemetry.addData("", "");
+            telemetry.addData("Current Position 2: ", arm2.getCurrentPosition());
+            telemetry.addData("Target Position 2: ", 170);
+            telemetry.addData("Arm Power 2: ", arm2.getPower());
+            telemetry.update();
         }
     }
 }

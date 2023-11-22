@@ -18,6 +18,7 @@ public class PIDFArm extends SubsystemBase {
     private int target = 0; //target position
 
     private DcMotorEx arm;
+    private DcMotorEx arm2;
 
     public PIDFArm(HardwareMap hardwareMap, int tolerance) {
         controller = new PIDController(p, i, d);
@@ -27,6 +28,9 @@ public class PIDFArm extends SubsystemBase {
         //The arm needs to be reverse for it to travel upwards
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
         ticks_in_degree = arm.getMotorType().getTicksPerRev() / 180.0;
+
+        arm = hardwareMap.get(DcMotorEx.class, "arm2");
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void move(int posChange){
@@ -50,6 +54,7 @@ public class PIDFArm extends SubsystemBase {
 
         double power = pid + ff;
         arm.setPower(power);
+        arm2.setPower(power);
     }
 
     public void tune(int target, double  p, double i, double d, double f){
@@ -60,6 +65,7 @@ public class PIDFArm extends SubsystemBase {
 
         double power = pid + ff;
         arm.setPower(power);
+        arm2.setPower(power);
     }
 
     public int armPos(){

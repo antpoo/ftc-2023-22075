@@ -18,6 +18,7 @@ public class PIDFTuner extends OpMode {
     public static int target = 0;
 
     private DcMotorEx arm;
+    private DcMotorEx arm2;
     private PIDController controller;
     private double ticks_in_degree;
     @Override
@@ -29,6 +30,9 @@ public class PIDFTuner extends OpMode {
         arm = hardwareMap.get(DcMotorEx.class, "arm");
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
         ticks_in_degree = arm.getMotorType().getTicksPerRev() / 180.0;
+
+        arm2 = hardwareMap.get(DcMotorEx.class, "arm2");
+        arm2.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -42,6 +46,7 @@ public class PIDFTuner extends OpMode {
         double power = pid + ff;
         //setPosition is never used, rather we continuously recalculate and adjust
         arm.setPower(power);
+        arm2.setPower(power);
 
         //Easier time reading these variables exact value without looking at the graph
         //These values can be shown on a graph
