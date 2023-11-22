@@ -51,7 +51,7 @@ public class OpenCVMaster {
                  */
                 webcam.setPipeline(opencv);
                 //start streaming the camera
-                webcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
 
                 while (!opencv.hasProcessedFrame) op.sleep(50);
 

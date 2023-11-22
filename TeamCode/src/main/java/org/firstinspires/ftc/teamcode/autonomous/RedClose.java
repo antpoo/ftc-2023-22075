@@ -29,7 +29,7 @@ public class RedClose extends LinearOpMode {
         OpenCVMaster cv = new OpenCVMaster(this);
         cv.observeStick(RED);
 
-        PIDFArm arm = new PIDFArm(hardwareMap, 10);
+        //PIDFArm arm = new PIDFArm(hardwareMap, 10);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
