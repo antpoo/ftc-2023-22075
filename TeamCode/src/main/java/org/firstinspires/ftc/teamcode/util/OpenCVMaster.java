@@ -24,9 +24,9 @@ public class OpenCVMaster {
     public String getItemStatus() {
         return itemStatus;
     }
-    public void observeStick(){
+    public void observeStick(boolean colour){
         //create the pipeline
-        opencv = new CustomOpenCVPipeline();
+        opencv = new CustomOpenCVPipeline(colour);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
