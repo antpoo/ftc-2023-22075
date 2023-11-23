@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.util;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
@@ -51,9 +52,24 @@ public class CustomOpenCVPipeline extends OpenCvPipeline {
     public void init(Mat firstFrame) {
         inputToCb(firstFrame);
 
-        Rect leftRect = new Rect(0, 0, 425, 720);
-        Rect centerRect = new Rect(426, 0, 425, 720);
-        Rect rightRect = new Rect(853, 0, 425, 720);
+        Rect leftRect = new Rect(2, 2, 416, 718);
+        Rect centerRect = new Rect(418, 2, 416, 718);
+        Rect rightRect = new Rect(837, 2, 416, 718);
+
+//        leftRect = new Rect(
+//                new Point(0, 0),
+//                new Point(425, 720)
+//        );
+//
+//        centerRect = new Rect(
+//                new Point(426, 0),
+//                new Point(851, 720)
+//        );
+//
+//        rightRect= new Rect(
+//                new Point(853, 0),
+//                new Point(1280, 720)
+//        );
 
         region1_Cb = Cb.submat(leftRect);
         region2_Cb = Cb.submat(centerRect);
@@ -113,9 +129,9 @@ public class CustomOpenCVPipeline extends OpenCvPipeline {
         thresh.release();
         finalMask.release();
 
-        Rect leftRect = new Rect(10, 10, 630, 710);
-        Rect centerRect = new Rect(640, 10, 630, 710);
-        Rect rightRect = new Rect(1270, 10, 630, 710);
+        Rect leftRect = new Rect(2, 2, 416, 718);
+        Rect centerRect = new Rect(418, 2, 416, 718);
+        Rect rightRect = new Rect(837, 2, 416, 718);
 
         Imgproc.rectangle(input, leftRect, rectColor, 2);
         Imgproc.rectangle(input, centerRect, rectColor, 2);
