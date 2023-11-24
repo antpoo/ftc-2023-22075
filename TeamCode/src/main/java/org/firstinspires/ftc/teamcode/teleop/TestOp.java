@@ -63,7 +63,8 @@ public class TestOp extends LinearOpMode {
 //            telemetry.addData("Position: ", plane.getPosition());
 
 
-            servo.setPosition(0.2);
+            wrist.setPosition(0.2);
+
 //            servo.setPosition(0.25);
 //            servo2.setPosition(0.25);
 //            telemetry.addData("Angle: ", servo.getPosition());
