@@ -18,8 +18,13 @@ public class LiftDrive extends CommandBase {
         addRequirements(subsystem);
     }
 
+//    @Override
+//    public void execute() {
+//        liftSubsystem.move((int) (factor * multiplier));
+//    }
+
     @Override
-    public void execute() {
-        liftSubsystem.move((int) (factor * multiplier));
+    public void execute(){
+        liftSubsystem.tmpMove((int) (factor * multiplier));
     }
 }

@@ -10,7 +10,7 @@ public class ArmDrive extends CommandBase {
 
     private final PIDFArm armSubsystem;
     private final double multiplier;
-    private final double factor = 20;
+    private final double factor = 10;
     public ArmDrive(PIDFArm subsystem, DoubleSupplier m) {
         armSubsystem = subsystem;
         multiplier = m.getAsDouble();

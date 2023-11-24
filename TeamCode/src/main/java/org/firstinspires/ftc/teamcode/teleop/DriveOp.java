@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmDrive;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
+import org.firstinspires.ftc.teamcode.commands.LiftDown;
 import org.firstinspires.ftc.teamcode.commands.LiftDrive;
+import org.firstinspires.ftc.teamcode.commands.LiftUp;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.CloseClaw1;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.CloseClaw2;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.OpenClaw1;
@@ -38,6 +40,8 @@ public class DriveOp extends CommandOpMode {
 
     private PIDFLift liftSubsystem;
     private LiftDrive liftCommand;
+    private LiftUp liftUpCommand;
+    private LiftDown liftDownCommand;
 
     private ClawWrist clawWristSubsystem;
     private TwistWrist twistWristCommand;
@@ -64,20 +68,28 @@ public class DriveOp extends CommandOpMode {
         GamepadButton yT = toolPad.getGamepadButton(GamepadKeys.Button.Y);
         GamepadButton leftBumber = toolPad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER);
         GamepadButton rightBumber = toolPad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER);
+        GamepadButton dpadTop = toolPad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
+        GamepadButton dpadDown = toolPad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+
 
         GamepadButton yD = drivePad.getGamepadButton(GamepadKeys.Button.Y);
 
 
-//        drivebase = new Drivebase(hardwareMap);
-//        driveCommand = new DefaultDrive(drivebase, () -> drivePad.getLeftX(),
-//                ()-> drivePad.getLeftY(), ()-> drivePad.getRightX());
+        drivebase = new Drivebase(hardwareMap);
+        driveCommand = new DefaultDrive(drivebase, () -> drivePad.getLeftX(),
+                ()-> drivePad.getLeftY(), ()-> drivePad.getRightX());
 //
 //        //TODO change tolerance if needed
-//        armSubsystem = new PIDFArm(hardwareMap, 0);
-//        armCommand = new ArmDrive(armSubsystem, ()-> toolPad.getRightY());
+        armSubsystem = new PIDFArm(hardwareMap, 0);
+        armCommand = new ArmDrive(armSubsystem, ()-> toolPad.getRightY());
 //        //TODO change tolerance if needed
-//        liftSubsystem = new PIDFLift(hardwareMap, 0);
-//        liftCommand = new LiftDrive(liftSubsystem, ()-> toolPad.getLeftY());
+        liftSubsystem = new PIDFLift(hardwareMap, 0);
+        liftCommand = new LiftDrive(liftSubsystem, ()-> toolPad.getLeftY());
+        liftUpCommand = new LiftUp(liftSubsystem);
+        dpadTop.whenActive(liftUpCommand);
+        liftDownCommand = new LiftDown(liftSubsystem);
+        dpadDown.whenActive(liftDownCommand);
+
 
         clawWristSubsystem = new ClawWrist(hardwareMap);
         openClaw1Command = new OpenClaw1(clawWristSubsystem);
@@ -99,8 +111,8 @@ public class DriveOp extends CommandOpMode {
         releaseCommand = new ReleasePlane(planeSubsystem);
         yD.whenActive(releaseCommand); //TODO see if their is a way to reset the servo after shooting
 
-//        drivebase.setDefaultCommand(driveCommand);
-//        armSubsystem.setDefaultCommand(armCommand);
-//        liftSubsystem.setDefaultCommand(liftCommand);
+        drivebase.setDefaultCommand(driveCommand);
+        armSubsystem.setDefaultCommand(armCommand);
+        liftSubsystem.setDefaultCommand(liftCommand);
     }
 }

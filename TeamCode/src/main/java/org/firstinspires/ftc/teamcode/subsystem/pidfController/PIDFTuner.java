@@ -35,8 +35,8 @@ public class PIDFTuner extends OpMode {
         arm2 = hardwareMap.get(DcMotorEx.class, "arm2");
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override

@@ -35,10 +35,10 @@ public class TestOp extends LinearOpMode {
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Servo servo = hardwareMap.get(Servo.class, "claw1");
-        servo.setDirection(Servo.Direction.REVERSE);
+        servo.setDirection(Servo.Direction.FORWARD);
 
         Servo servo2 = hardwareMap.get(Servo.class, "claw2");
-        servo2.setDirection(Servo.Direction.REVERSE);
+        servo2.setDirection(Servo.Direction.FORWARD);
 
         Servo plane = hardwareMap.get(Servo.class, "plane");
         plane.setDirection(Servo.Direction.FORWARD);
@@ -63,18 +63,21 @@ public class TestOp extends LinearOpMode {
 //            telemetry.addData("Position: ", plane.getPosition());
 
 
-            servo.setPosition(0.2);
+//            servo.setPosition(0);
+//            servo2.setPosition(0);
+//            plane.setPosition(0);
+//            wrist.setPosition(1);
 //            servo.setPosition(0.25);
 //            servo2.setPosition(0.25);
 //            telemetry.addData("Angle: ", servo.getPosition());
 //            telemetry.addData("Angle: ", servo2.getPosition());
 //            telemetry.update();
 
-//            arm.setTargetPosition(250);
+//            arm.setTargetPosition(50);
 //            arm.setPower(0.25);
 //            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //
-//            arm2.setTargetPosition(250);
+//            arm2.setTargetPosition(50);
 //            arm2.setPower(0.25);
 //            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //

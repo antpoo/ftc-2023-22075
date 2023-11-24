@@ -21,8 +21,8 @@ public class PIDFArm extends SubsystemBase {
     private DcMotorEx arm2;
 
     public PIDFArm(HardwareMap hardwareMap, int tolerance) {
-        controller = new PIDController(p, i, d);
-        controller.setTolerance(tolerance);
+//        controller = new PIDController(p, i, d);
+//        controller.setTolerance(tolerance);
 
         arm = hardwareMap.get(DcMotorEx.class, "arm");
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -75,10 +75,13 @@ public class PIDFArm extends SubsystemBase {
     }
 
     public void tmpSetPost(int t){
-        arm.setTargetPosition(t);
+        target = t;
+        arm.setTargetPosition(target);
         arm.setPower(0.25);
-        arm2.setTargetPosition(t);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm2.setTargetPosition(target);
         arm2.setPower(0.25);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
 
