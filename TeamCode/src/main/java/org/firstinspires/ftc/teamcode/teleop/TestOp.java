@@ -25,7 +25,7 @@ public class TestOp extends LinearOpMode {
         DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         DcMotorEx arm2 = hardwareMap.get(DcMotorEx.class, "arm2");
@@ -44,7 +44,7 @@ public class TestOp extends LinearOpMode {
         plane.setDirection(Servo.Direction.FORWARD);
 
         Servo wrist = hardwareMap.get(Servo.class, "wrist");
-        wrist.setDirection(Servo.Direction.REVERSE);
+        wrist.setDirection(Servo.Direction.FORWARD);
 
         waitForStart();
 
@@ -63,19 +63,20 @@ public class TestOp extends LinearOpMode {
 //            telemetry.addData("Position: ", plane.getPosition());
 
 
-//            wrist.setPosition(0);
+            servo.setPosition(0.2);
 //            servo.setPosition(0.25);
 //            servo2.setPosition(0.25);
 //            telemetry.addData("Angle: ", servo.getPosition());
 //            telemetry.addData("Angle: ", servo2.getPosition());
 //            telemetry.update();
-            arm.setTargetPosition(50);
-            arm.setPower(0.5);
-            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            arm2.setTargetPosition(50);
-            arm2.setPower(0.5);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            arm.setTargetPosition(250);
+//            arm.setPower(0.25);
+//            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            arm2.setTargetPosition(250);
+//            arm2.setPower(0.25);
+//            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //
 //            arm.setVelocity(arm2.getVelocity());
 
@@ -88,13 +89,13 @@ public class TestOp extends LinearOpMode {
 //            telemetry.addData("Arm1: ", arm.getPower());
 //            telemetry.addData("Arm2 :", arm2.getPower());
 
-            telemetry.addData("Current Position 1: ", arm.getCurrentPosition());
-            telemetry.addData("Target Position 1: ", 50);
-            telemetry.addData("Arm Power 1: ", arm.getPower());
-            telemetry.addData("", "");
-            telemetry.addData("Current Position 2: ", arm2.getCurrentPosition());
-            telemetry.addData("Target Position 2: ", 50);
-            telemetry.addData("Arm Power 2: ", arm2.getVelocity());
+//            telemetry.addData("Current Position 1: ", arm.getCurrentPosition());
+//            telemetry.addData("Target Position 1: ", 150);
+//            telemetry.addData("Arm Power 1: ", arm.getPower());
+//            telemetry.addData("", "");
+//            telemetry.addData("Current Position 2: ", arm2.getCurrentPosition());
+//            telemetry.addData("Target Position 2: ", 150);
+//            telemetry.addData("Arm Power 2: ", arm2.getPower());
             telemetry.update();
         }
     }

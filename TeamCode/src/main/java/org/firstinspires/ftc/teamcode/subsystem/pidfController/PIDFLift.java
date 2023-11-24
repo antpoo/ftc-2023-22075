@@ -42,6 +42,25 @@ public class PIDFLift extends SubsystemBase {
         lift2.setPower(power);
     }
 
+    //TODO temperay lift moving code
+    public void tmpMove(int t){
+        target += t;
+        tmpSetPost(target);
+    }
+
+    public void tmpAutonPos(int t){
+        while(lift1.isBusy()){
+            tmpSetPost(t);
+        }
+    }
+
+    public void tmpSetPost(int t){
+        lift1.setTargetPosition(t);
+        lift1.setPower(0.25);
+        lift2.setTargetPosition(t);
+        lift2.setPower(0.25);
+    }
+
     public void tune(int target, double p, double i, double d, double f) {
         controller.setPID(p, i, d);
         int armPos = lift1.getCurrentPosition();
