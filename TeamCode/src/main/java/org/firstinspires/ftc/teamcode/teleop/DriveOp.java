@@ -68,9 +68,9 @@ public class DriveOp extends CommandOpMode {
         GamepadButton yD = drivePad.getGamepadButton(GamepadKeys.Button.Y);
 
 
-//        drivebase = new Drivebase(hardwareMap);
-//        driveCommand = new DefaultDrive(drivebase, () -> drivePad.getLeftX(),
-//                ()-> drivePad.getLeftY(), ()-> drivePad.getRightX());
+        drivebase = new Drivebase(hardwareMap);
+        driveCommand = new DefaultDrive(drivebase, () -> drivePad.getLeftX(),
+                ()-> drivePad.getLeftY(), ()-> drivePad.getRightX());
 //
 //        //TODO change tolerance if needed
 //        armSubsystem = new PIDFArm(hardwareMap, 0);
@@ -99,7 +99,7 @@ public class DriveOp extends CommandOpMode {
         releaseCommand = new ReleasePlane(planeSubsystem);
         yD.whenActive(releaseCommand); //TODO see if their is a way to reset the servo after shooting
 
-//        drivebase.setDefaultCommand(driveCommand);
+        drivebase.setDefaultCommand(driveCommand);
 //        armSubsystem.setDefaultCommand(armCommand);
 //        liftSubsystem.setDefaultCommand(liftCommand);
     }
