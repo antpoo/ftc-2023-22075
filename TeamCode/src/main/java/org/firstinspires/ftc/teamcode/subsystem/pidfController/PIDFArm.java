@@ -25,12 +25,17 @@ public class PIDFArm extends SubsystemBase {
         controller.setTolerance(tolerance);
 
         arm = hardwareMap.get(DcMotorEx.class, "arm");
-        //The arm needs to be reverse for it to travel upwards
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
         ticks_in_degree = arm.getMotorType().getTicksPerRev() / 180.0;
 
         arm = hardwareMap.get(DcMotorEx.class, "arm2");
-        arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        //TODO these can be remove once PIDF is setup
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void move(int posChange){
@@ -56,6 +61,26 @@ public class PIDFArm extends SubsystemBase {
         arm.setPower(power);
         arm2.setPower(power);
     }
+
+    //TODO temporary arm movement code
+    public void tmpMove(int t){
+        target += t;
+        tmpSetPost(target);
+    }
+
+    public void tmpAutonPos(int t){
+        while(arm.isBusy() && arm2.isBusy()){
+            tmpSetPost(t);
+        }
+    }
+
+    public void tmpSetPost(int t){
+        arm.setTargetPosition(t);
+        arm.setPower(0.25);
+        arm2.setTargetPosition(t);
+        arm2.setPower(0.25);
+    }
+
 
     public void tune(int target, double  p, double i, double d, double f){
         controller.setPID(p, i, d);

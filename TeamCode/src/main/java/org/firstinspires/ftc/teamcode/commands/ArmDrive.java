@@ -18,8 +18,13 @@ public class ArmDrive extends CommandBase {
         addRequirements(subsystem);
     }
 
+//    @Override
+//    public void execute(){
+//        armSubsystem.move((int) (factor * multiplier));
+//    }
+
     @Override
     public void execute(){
-        armSubsystem.move((int) (factor * multiplier));
+        armSubsystem.tmpMove((int) (factor * multiplier));
     }
 }
