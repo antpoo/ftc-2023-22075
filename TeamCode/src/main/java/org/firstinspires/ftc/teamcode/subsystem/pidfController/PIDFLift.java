@@ -17,8 +17,9 @@ public class PIDFLift extends SubsystemBase {
     private double p = 0, i = 0, d = 0, f = 0;
 
     public int target = 0;
+    public int target1 = 0;
 
-    private DcMotorEx lift1, lift2;
+    private DcMotor lift1, lift2;
 
     public static final int UP = 300;
     public static final int DOWN = 0;
@@ -27,9 +28,9 @@ public class PIDFLift extends SubsystemBase {
 //        controller.setPID(p, i, d);
 //        controller.setTolerance(tolerance);
 
-        lift1 = hardwareMap.get(DcMotorEx.class, "lift1");
+        lift1 = hardwareMap.get(DcMotor.class, "lift1");
         lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift2 = hardwareMap.get(DcMotorEx.class, "lift2");
+        lift2 = hardwareMap.get(DcMotor.class, "lift2");
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setDirection(DcMotorSimple.Direction.REVERSE);
     }
@@ -52,9 +53,49 @@ public class PIDFLift extends SubsystemBase {
     }
 
     //TODO temporary lift moving code
-    public void tmpMove(int t){
-        target += t;
-        tmpSetPost(target);
+    public void tmpMove(double pos){
+        if(pos > 0){
+            target += 5;
+            lift1.setTargetPosition(target);
+            lift2.setTargetPosition(target);
+            lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift1.setPower(0.5);
+            lift2.setPower(0.5);
+        }else if(pos < 0){
+            if(target != 0){
+                target -= 5;
+                lift1.setTargetPosition(target);
+                lift2.setTargetPosition(target);
+            }else {
+                lift1.setTargetPosition(target);
+                lift2.setTargetPosition(target);
+            }
+            lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift1.setPower(-0.5);
+            lift2.setPower(-0.5);
+        }
+    }
+
+    public void liftUp(){
+        if (lift1.getCurrentPosition() >= 3000 || lift2.getCurrentPosition() >= 3000) return;
+        lift1.setTargetPosition(UP);
+        lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift1.setPower(0.8);
+        lift2.setTargetPosition(UP);
+        lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift2.setPower(0.8);
+    }
+
+    public void liftDown(){
+        if(lift1.getCurrentPosition() <= 0 || lift2.getCurrentPosition() <= 0) return;
+        lift1.setTargetPosition(DOWN);
+        lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift1.setPower(-0.8);
+        lift2.setTargetPosition(DOWN);
+        lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift2.setPower(-0.8);
     }
 
     public void tmpAutonPos(int t){
@@ -64,11 +105,11 @@ public class PIDFLift extends SubsystemBase {
     }
 
     public void tmpSetPost(int t){
-        target=t;
-        lift1.setTargetPosition(target);
+        target1=t;
+        lift1.setTargetPosition(target1);
         lift1.setPower(0.75);
         lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lift2.setTargetPosition(target);
+        lift2.setTargetPosition(target1);
         lift2.setPower(0.75);
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 

@@ -9,11 +9,11 @@ import java.util.function.DoubleSupplier;
 public class LiftDrive extends CommandBase {
 
     private final PIDFLift liftSubsystem;
-    private final double multiplier;
+    private final DoubleSupplier multiplier;
     private final double factor = 20;
     public LiftDrive(PIDFLift subsystem, DoubleSupplier m) {
         liftSubsystem = subsystem;
-        multiplier = m.getAsDouble();
+        multiplier = m;
 
         addRequirements(subsystem);
     }
@@ -25,6 +25,6 @@ public class LiftDrive extends CommandBase {
 
     @Override
     public void execute(){
-        liftSubsystem.tmpMove((int) (factor * multiplier));
+        liftSubsystem.tmpMove(multiplier.getAsDouble());
     }
 }

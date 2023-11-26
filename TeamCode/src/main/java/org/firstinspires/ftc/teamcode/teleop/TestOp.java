@@ -15,11 +15,14 @@ public class TestOp extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         DcMotor lift1 = hardwareMap.get(DcMotor.class, "lift1");
+        lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         DcMotor lift2 = hardwareMap.get(DcMotor.class, "lift2");
+        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift2.setDirection(DcMotorSimple.Direction.REVERSE);
         lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //
         DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
@@ -35,7 +38,7 @@ public class TestOp extends LinearOpMode {
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Servo servo = hardwareMap.get(Servo.class, "claw1");
-        servo.setDirection(Servo.Direction.FORWARD);
+        servo.setDirection(Servo.Direction.REVERSE);
 
         Servo servo2 = hardwareMap.get(Servo.class, "claw2");
         servo2.setDirection(Servo.Direction.FORWARD);
@@ -62,9 +65,10 @@ public class TestOp extends LinearOpMode {
 //            plane.setPosition(0.5);
 //            telemetry.addData("Position: ", plane.getPosition());
 
-
-//            servo.setPosition(0);
+//            telemetry.addData("Position", servo.getPosition());
+//            telemetry.addData("Direction", servo.getDirection());
 //            servo2.setPosition(0);
+//            servo2.setPosition(0.1);
 //            plane.setPosition(0);
 //            wrist.setPosition(1);
 //            servo.setPosition(0.25);
@@ -80,7 +84,7 @@ public class TestOp extends LinearOpMode {
 //            arm2.setTargetPosition(50);
 //            arm2.setPower(0.25);
 //            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
+
 //            arm.setVelocity(arm2.getVelocity());
 
 //            telemetry.addData("ticks_in_degree ", arm.getMotorType().getTicksPerRev() / 180.0);
@@ -99,6 +103,9 @@ public class TestOp extends LinearOpMode {
 //            telemetry.addData("Current Position 2: ", arm2.getCurrentPosition());
 //            telemetry.addData("Target Position 2: ", 150);
 //            telemetry.addData("Arm Power 2: ", arm2.getPower());
+
+            telemetry.addData("Current position1:", lift1.getCurrentPosition());
+            telemetry.addData("Current position 2:", lift2.getCurrentPosition());
             telemetry.update();
         }
     }

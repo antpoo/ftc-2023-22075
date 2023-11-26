@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.LiftDown;
 import org.firstinspires.ftc.teamcode.commands.LiftDrive;
 import org.firstinspires.ftc.teamcode.commands.LiftUp;
+import org.firstinspires.ftc.teamcode.commands.clawWrist.AllUpWrist;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.CloseClaw1;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.CloseClaw2;
 import org.firstinspires.ftc.teamcode.commands.clawWrist.OpenClaw1;
@@ -50,6 +51,7 @@ public class DriveOp extends CommandOpMode {
     private CloseClaw1 closeClaw1Command;
     private OpenClaw2 openClaw2Command;
     private CloseClaw2 closeClaw2Command;
+    private AllUpWrist upWristCommand;
 
     private Plane planeSubsystem;
     private ReleasePlane releaseCommand;
@@ -70,6 +72,7 @@ public class DriveOp extends CommandOpMode {
         GamepadButton rightBumber = toolPad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER);
         GamepadButton dpadTop = toolPad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
         GamepadButton dpadDown = toolPad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+        GamepadButton dpadRight = toolPad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
 
 
         GamepadButton yD = drivePad.getGamepadButton(GamepadKeys.Button.Y);
@@ -81,7 +84,7 @@ public class DriveOp extends CommandOpMode {
 //
 //        //TODO change tolerance if needed
         armSubsystem = new PIDFArm(hardwareMap, 0);
-        armCommand = new ArmDrive(armSubsystem, ()-> toolPad.getRightY());
+        armCommand = new ArmDrive(armSubsystem, ()->toolPad.getRightY());
 //        //TODO change tolerance if needed
         liftSubsystem = new PIDFLift(hardwareMap, 0);
         liftCommand = new LiftDrive(liftSubsystem, ()-> toolPad.getLeftY());
@@ -106,6 +109,8 @@ public class DriveOp extends CommandOpMode {
         leftBumber.whenActive(twistWristCommand);
         untwistWristCommand = new UntwistWrist(clawWristSubsystem);
         rightBumber.whenActive(untwistWristCommand);
+        upWristCommand = new AllUpWrist(clawWristSubsystem);
+        dpadRight.whenActive(upWristCommand);
 
         planeSubsystem = new Plane(hardwareMap);
         releaseCommand = new ReleasePlane(planeSubsystem);
@@ -114,5 +119,8 @@ public class DriveOp extends CommandOpMode {
         drivebase.setDefaultCommand(driveCommand);
         armSubsystem.setDefaultCommand(armCommand);
         liftSubsystem.setDefaultCommand(liftCommand);
+
+        telemetry.addData("", toolPad.getRightY());
+        telemetry.update();
     }
 }

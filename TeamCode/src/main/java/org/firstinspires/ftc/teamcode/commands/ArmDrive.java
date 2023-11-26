@@ -9,11 +9,10 @@ import java.util.function.DoubleSupplier;
 public class ArmDrive extends CommandBase {
 
     private final PIDFArm armSubsystem;
-    private final double multiplier;
-    private final double factor = 10;
+    private final DoubleSupplier multiplier;
     public ArmDrive(PIDFArm subsystem, DoubleSupplier m) {
         armSubsystem = subsystem;
-        multiplier = m.getAsDouble();
+        multiplier = m;
 
         addRequirements(subsystem);
     }
@@ -25,6 +24,6 @@ public class ArmDrive extends CommandBase {
 
     @Override
     public void execute(){
-        armSubsystem.tmpMove((int) (factor * multiplier));
+        armSubsystem.tmpMove(multiplier.getAsDouble());
     }
 }

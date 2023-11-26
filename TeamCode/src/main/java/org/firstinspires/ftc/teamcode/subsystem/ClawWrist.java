@@ -16,9 +16,10 @@ public class ClawWrist extends SubsystemBase {
      */
     private boolean[] state = new boolean[3];
     public final double CLOSE = 0; //degrees to close the claw //TODO set the degrees
-    public final double OPEN = 0.2;
-    public final double TWIST = 0.75; //Required amount of turn from the wrist for pixel placement on board
-    public final double UNTWIST = 0;
+    public final double OPEN = 0.1;
+    public final double TWIST = 0.5; //Required amount of turn from the wrist for pixel placement on board
+    public final double ALLUP = 1;
+    public final double UNTWIST = 0.25;
 
     public static final int CLAW1 = 0, CLAW2  = 1, WRIST  = 2;
     public ClawWrist(HardwareMap hardwareMap) {
@@ -38,7 +39,7 @@ public class ClawWrist extends SubsystemBase {
         claw1.setDirection(Servo.Direction.REVERSE);
 
         claw2 =hardwareMap.get(Servo.class, "claw2");
-        claw2.setDirection(Servo.Direction.REVERSE);
+        claw2.setDirection(Servo.Direction.FORWARD);
 
         wrist = hardwareMap.get(Servo.class, "wrist");
         wrist.setDirection(Servo.Direction.FORWARD);
@@ -73,6 +74,9 @@ public class ClawWrist extends SubsystemBase {
     }
     public void unTwist(){
         wrist.setPosition(UNTWIST);
+    }
+    public void up(){
+        wrist.setPosition(ALLUP);
     }
 
 //    public void twistWrist(){

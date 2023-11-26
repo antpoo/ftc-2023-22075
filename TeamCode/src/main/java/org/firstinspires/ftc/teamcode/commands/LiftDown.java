@@ -12,6 +12,6 @@ public class LiftDown extends CommandBase {
 
     @Override
     public void execute() {
-        lift.tmpSetPost(PIDFLift.DOWN);
+        lift.liftDown();
     }
 }

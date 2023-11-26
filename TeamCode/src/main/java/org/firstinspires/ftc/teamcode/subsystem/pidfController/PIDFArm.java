@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.io.PipedOutputStream;
+
 public class PIDFArm extends SubsystemBase {
     private PIDController controller;
 
@@ -17,8 +19,8 @@ public class PIDFArm extends SubsystemBase {
 
     private int target = 0; //target position
 
-    private DcMotorEx arm;
-    private DcMotorEx arm2;
+    private DcMotor arm;
+    private DcMotor arm2;
 
     public PIDFArm(HardwareMap hardwareMap, int tolerance) {
 //        controller = new PIDController(p, i, d);
@@ -28,8 +30,8 @@ public class PIDFArm extends SubsystemBase {
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
         ticks_in_degree = arm.getMotorType().getTicksPerRev() / 180.0;
 
-        arm = hardwareMap.get(DcMotorEx.class, "arm2");
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        arm2 = hardwareMap.get(DcMotorEx.class, "arm2");
+        arm2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //TODO these can be remove once PIDF is setup
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -63,9 +65,26 @@ public class PIDFArm extends SubsystemBase {
     }
 
     //TODO temporary arm movement code
-    public void tmpMove(int t){
-        target += t;
-        tmpSetPost(target);
+    public void tmpMove(double pos){
+        if(pos > 0){
+            target += 1;
+            arm.setTargetPosition(target);
+            arm2.setTargetPosition(target);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setPower(0.15);
+            arm2.setPower(0.15);
+        }else if(pos < 0){
+            if(target != 0){
+                target -= 1;
+            }
+            arm.setTargetPosition(target);
+            arm2.setTargetPosition(target);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setPower(-0.15);
+            arm2.setPower(-0.15);
+        }
     }
 
     public void tmpAutonPos(int t){
