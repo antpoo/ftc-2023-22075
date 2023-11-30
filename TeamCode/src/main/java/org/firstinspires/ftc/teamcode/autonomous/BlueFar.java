@@ -2,10 +2,14 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import android.util.Size;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.autonomous.roadrunner.essentials.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.util.OpenCVMaster;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -24,7 +28,7 @@ public class BlueFar extends LinearOpMode {
         OpenCVMaster cv = new OpenCVMaster(this);
         cv.observeStick(BLUE);
         waitForStart();
-        int target = LEFT; // change based on team prop
+        int target = CENTER; // change based on team prop
 
         int cnt = 0;
 
@@ -65,32 +69,61 @@ public class BlueFar extends LinearOpMode {
                 .setCameraResolution(new Size(640, 480))
                 .build();
 
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        Trajectory purpleTraj;
+
+        if (target == LEFT) {
+            purpleTraj = drive.trajectoryBuilder(new Pose2d())
+                    .splineTo(new Vector2d(0.0, 19.0), Math.toRadians(-28 - 180)) // FIX THESE NUMBERS IF NEEDED
+                    .addDisplacementMarker(() -> {
+                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+                    })
+                    .build();
+        }
+        else if (target == CENTER) {
+            purpleTraj = drive.trajectoryBuilder(new Pose2d())
+                    .splineTo(new Vector2d(0.0, 20.38), 0)
+                    .addDisplacementMarker(() -> {
+                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+                    })
+                    .build();
+        }
+        else {
+            purpleTraj = drive.trajectoryBuilder(new Pose2d())
+                    .splineTo(new Vector2d(0.0, 19.0), Math.toRadians(28 + 180)) // FIX THESE NUMBERS IF NEEDED
+                    .addDisplacementMarker(() -> {
+                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+                    })
+                    .build();
+        }
+
         // MOVE TOWARDS THE BACKDROP HERE
 
-        while (!isStopRequested() && opModeIsActive()) {
-
-
-
-            // once you are at the correct location
-            AprilTagDetection tag = null;
-            for (AprilTagDetection atag : tagProcessor.getDetections())  {
-                if (atag.id % 3 == target % 3) {
-                    tag = atag;
-                }
-            }
-            if (tag != null && tag.ftcPose != null) {
-                double x = tag.ftcPose.x, y = tag.ftcPose.y, z = tag.ftcPose.z;
-                telemetry.addData("id", tag.id);
-                telemetry.addData("x", x);
-                telemetry.addData("y", y);
-                telemetry.addData("z", z);
-                telemetry.update();
-            }
-
-            // move accordingly
-
-
-        }
+//        while (!isStopRequested() && opModeIsActive()) {
+//
+//
+//
+//            // once you are at the correct location
+//            AprilTagDetection tag = null;
+//            for (AprilTagDetection atag : tagProcessor.getDetections())  {
+//                if (atag.id % 3 == target % 3) {
+//                    tag = atag;
+//                }
+//            }
+//            if (tag != null && tag.ftcPose != null) {
+//                double x = tag.ftcPose.x, y = tag.ftcPose.y, z = tag.ftcPose.z;
+//                telemetry.addData("id", tag.id);
+//                telemetry.addData("x", x);
+//                telemetry.addData("y", y);
+//                telemetry.addData("z", z);
+//                telemetry.update();
+//            }
+//
+//            // move accordingly
+//
+//
+//        }
     }
 
 
