@@ -73,6 +73,7 @@ public class BlueFar extends LinearOpMode {
 
         Trajectory purpleTraj;
 
+
         if (target == LEFT) {
             purpleTraj = drive.trajectoryBuilder(new Pose2d())
                     .splineTo(new Vector2d(0.0, 19.0), Math.toRadians(-28 - 180)) // FIX THESE NUMBERS IF NEEDED
@@ -83,11 +84,13 @@ public class BlueFar extends LinearOpMode {
         }
         else if (target == CENTER) {
             purpleTraj = drive.trajectoryBuilder(new Pose2d())
-                    .splineTo(new Vector2d(0.0, 20.38), 0)
-                    .addDisplacementMarker(() -> {
-                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
-                    })
+//                    .splineTo(new Vector2d(0.0, 23), Math.toRadians(180))
+//                    .addDisplacementMarker(() -> {
+//                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+//                    })
+                    .back(22)
                     .build();
+
         }
         else {
             purpleTraj = drive.trajectoryBuilder(new Pose2d())
@@ -97,6 +100,17 @@ public class BlueFar extends LinearOpMode {
                     })
                     .build();
         }
+
+        purpleTraj = drive.trajectoryBuilder(new Pose2d())
+//                    .splineTo(new Vector2d(0.0, 23), Math.toRadians(180))
+//                    .addDisplacementMarker(() -> {
+//                        //arm.setPosition(some number); MAKE THE ARM RELEASE THE PURPLE PIXEL HERE
+//                    })
+                .back(22)
+                .build();
+
+        drive.followTrajectory(purpleTraj);
+
 
         // MOVE TOWARDS THE BACKDROP HERE
 
