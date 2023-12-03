@@ -36,10 +36,10 @@ public class ClawWrist extends SubsystemBase {
 //        servos[2] = servo3;
 
         claw1 = hardwareMap.get(Servo.class, "claw1");
-        claw1.setDirection(Servo.Direction.REVERSE);
+        claw1.setDirection(Servo.Direction.FORWARD);
 
         claw2 =hardwareMap.get(Servo.class, "claw2");
-        claw2.setDirection(Servo.Direction.FORWARD);
+        claw2.setDirection(Servo.Direction.REVERSE);
 
         wrist = hardwareMap.get(Servo.class, "wrist");
         wrist.setDirection(Servo.Direction.FORWARD);
