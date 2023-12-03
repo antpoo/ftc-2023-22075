@@ -26,6 +26,6 @@ public class DefaultDrive extends CommandBase {
 
     @Override
     public void execute() {
-        m_drive.move(strafeSpeed.getAsDouble(), forwardSpeed.getAsDouble(), turn.getAsDouble());
+        m_drive.move(strafeSpeed.getAsDouble(), forwardSpeed.getAsDouble(), -turn.getAsDouble());
     }
 }

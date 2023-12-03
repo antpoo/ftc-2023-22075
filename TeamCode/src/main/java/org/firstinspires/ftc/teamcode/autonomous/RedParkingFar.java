@@ -17,7 +17,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @Autonomous
-public class BlueParking extends LinearOpMode {
+public class RedParkingFar extends LinearOpMode {
 
 
     @Override
@@ -32,8 +32,8 @@ public class BlueParking extends LinearOpMode {
 
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(new Pose2d())
-                .forward(3)
-                .strafeLeft(50)
+                .forward(70)
+                .strafeRight(120)
                 .build();
 
         drive.followTrajectorySequence(traj);
