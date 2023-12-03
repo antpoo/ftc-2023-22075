@@ -35,7 +35,7 @@ public class BlueFar extends LinearOpMode {
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData("Side: ", cv.opencv.whichSide);
             telemetry.addData("Debug", cv.opencv.max);
-            telemetry.addData("Avg1", cv.opencv.avg1);
+            telemetry.addData("AvgAvg11", cv.opencv.avg1);
             telemetry.addData("Avg2", cv.opencv.avg2);
             telemetry.addData("Avg3", cv.opencv.avg3);
             telemetry.addData("Count", cnt);
@@ -72,6 +72,8 @@ public class BlueFar extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory purpleTraj;
+
+
 
 
         if (target == LEFT) {
