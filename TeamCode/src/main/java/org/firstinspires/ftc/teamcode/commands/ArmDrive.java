@@ -24,6 +24,6 @@ public class ArmDrive extends CommandBase {
 
     @Override
     public void execute(){
-        armSubsystem.tmpMove(multiplier.getAsDouble());
+        armSubsystem.tmpMove(-multiplier.getAsDouble());
     }
 }
