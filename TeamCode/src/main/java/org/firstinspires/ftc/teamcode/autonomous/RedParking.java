@@ -31,12 +31,12 @@ public class RedParking extends LinearOpMode {
 
 
 
-        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
+        TrajectorySequence traj = drive.trajectorySequenceBuilder(new Pose2d())
                 .forward(3)
                 .strafeRight(50)
                 .build();
 
-        drive.followTrajectory(traj);
+        drive.followTrajectorySequence(traj);
 
 
     }
